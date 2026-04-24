@@ -1,410 +1,84 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#080c10;--bg2:#0d1219;--bg3:#111820;--accent:#00d4ff;--accent2:#0066ff;--text:#e8edf2;--muted:#6b7f8f;--border:#1e2d3d;--card:#0f1923;--wa:#25D366;--wa-dark:#128C7E}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;line-height:1.6;overflow-x:hidden}
-nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(8,12,16,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;letter-spacing:4px;color:var(--accent);text-decoration:none}
-.logo span{color:#fff}
-.nav-links{display:flex;gap:32px;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:2px;text-transform:uppercase;transition:.2s}
-.nav-links a:hover{color:var(--accent)}
-.nav-cta{background:var(--accent);color:#000;border:none;padding:8px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;cursor:pointer;transition:.2s}
-.nav-cta:hover{background:#fff}
-#inicio{min-height:100vh;display:flex;align-items:center;padding:80px 5% 0;position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.3}
-.hero-scan{position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:scan 4s linear infinite}
-@keyframes scan{0%{top:0}100%{top:100%}}
-.hero-content{position:relative;max-width:700px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);padding:6px 16px;margin-bottom:24px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--accent)}
-.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-h1{font-family:'Rajdhani',sans-serif;font-size:clamp(48px,7vw,88px);font-weight:700;line-height:0.95;letter-spacing:-1px;margin-bottom:24px}
-h1 .line2{color:var(--accent)}
-.hero-sub{font-size:16px;color:var(--muted);max-width:480px;margin-bottom:40px;line-height:1.8}
-.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
-.btn-primary{background:var(--accent);color:#000;border:none;padding:14px 32px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:2px;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
-.btn-primary:hover{background:#fff}
-.btn-outline{background:transparent;color:var(--accent);border:1px solid var(--accent);padding:14px 32px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:2px;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
-.btn-outline:hover{background:rgba(0,212,255,0.1)}
-.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:32px;border-top:1px solid var(--border)}
-.stat-num{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--accent)}
-.stat-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
-section{padding:100px 5%}
-.section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
-.section-title{font-family:'Rajdhani',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:700;margin-bottom:16px;letter-spacing:-0.5px}
-.section-sub{color:var(--muted);font-size:15px;max-width:560px;line-height:1.8}
-#servicios{background:var(--bg2)}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--border);margin-top:60px}
-.service-card{background:var(--card);padding:40px 32px;position:relative;overflow:hidden;cursor:pointer;transition:.3s}
-.service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:.3s}
-.service-card:hover::before{transform:scaleX(1)}
-.service-card:hover{background:#141e29}
-.service-icon{width:52px;height:52px;margin-bottom:24px}
-.service-num{position:absolute;top:32px;right:32px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--border);letter-spacing:2px}
-.service-name{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:600;margin-bottom:12px;letter-spacing:1px}
-.service-desc{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px}
-.service-features{list-style:none}
-.service-features li{font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
-.service-features li::before{content:'';width:4px;height:4px;background:var(--accent);border-radius:50%;flex-shrink:0}
-#galeria{background:var(--bg)}
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,220px);gap:4px;margin-top:60px}
-.gallery-item{background:var(--card);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;cursor:pointer;transition:.3s}
-.gallery-item:first-child{grid-row:span 2;background:var(--bg3)}
-.gallery-item:hover{border-color:var(--accent)}
-.gallery-item svg{opacity:0.2;transition:.3s}
-.gallery-item:hover svg{opacity:0.5}
-.gallery-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;position:absolute;bottom:16px;left:16px}
-.gallery-item:hover .gallery-label{color:var(--accent)}
-#cotizacion{background:var(--bg2)}
-.quote-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;margin-top:60px;align-items:start}
-.quote-info{padding-top:8px}
-.quote-steps{margin-top:40px}
-.step{display:flex;gap:20px;margin-bottom:32px;align-items:flex-start}
-.step-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);width:28px;flex-shrink:0;padding-top:3px}
-.step-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;margin-bottom:4px}
-.step-desc{font-size:13px;color:var(--muted);line-height:1.7}
-.quote-form{background:var(--card);border:1px solid var(--border);padding:40px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.form-group{margin-bottom:20px}
-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
-input,select,textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;transition:.2s;-webkit-appearance:none}
-input:focus,select:focus,textarea:focus{border-color:var(--accent);background:#0d1821}
-select option{background:var(--bg3)}
-textarea{resize:vertical;min-height:100px}
-.checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.check-item{display:flex;align-items:center;gap:10px;cursor:pointer}
-.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
-.check-item span{font-size:13px;color:var(--muted)}
+import React, { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Droplets, Thermometer, Activity } from "lucide-react";
 
-/* BOTÓN WHATSAPP */
-.form-submit-wa{width:100%;background:var(--wa);color:#fff;border:none;padding:16px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:.2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:12px}
-.form-submit-wa:hover{background:var(--wa-dark)}
-.wa-icon{width:22px;height:22px;fill:#fff;flex-shrink:0}
-.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
-.wa-float{position:fixed;bottom:28px;right:28px;z-index:200;background:var(--wa);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);cursor:pointer;transition:.2s;text-decoration:none}
-.wa-float:hover{background:var(--wa-dark);transform:scale(1.08)}
-.wa-float svg{width:30px;height:30px;fill:#fff}
-.wa-tooltip{position:absolute;right:68px;background:#111;color:#fff;font-size:12px;white-space:nowrap;padding:6px 12px;border-radius:4px;opacity:0;pointer-events:none;transition:.2s;font-family:'IBM Plex Mono',monospace}
-.wa-float:hover .wa-tooltip{opacity:1}
+const mockFetchData = () => {
+  return {
+    ph: (5.5 + Math.random()).toFixed(2),
+    temperature: (20 + Math.random() * 5).toFixed(1),
+    humidity: (50 + Math.random() * 10).toFixed(1),
+    time: new Date().toLocaleTimeString()
+  };
+};
 
-#contacto{background:var(--bg3);border-top:1px solid var(--border)}
-.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:60px}
-.contact-card{background:var(--card);padding:36px 28px}
-.contact-icon{width:40px;height:40px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
-.contact-title{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;letter-spacing:1px;margin-bottom:8px}
-.contact-info{font-size:14px;color:var(--muted);line-height:1.8}
-.contact-info a{color:var(--accent);text-decoration:none}
-.contact-wa-btn{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#fff;padding:10px 20px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-decoration:none;margin-top:12px;transition:.2s}
-.contact-wa-btn:hover{background:var(--wa-dark)}
-.contact-wa-btn svg{width:16px;height:16px;fill:#fff}
+export default function HydroponicDashboard() {
+  const [data, setData] = useState([]);
 
-footer{background:var(--bg);border-top:1px solid var(--border);padding:40px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.footer-logo{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:4px;color:var(--accent)}
-.footer-logo span{color:#fff}
-.footer-copy{font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace}
-.footer-links{display:flex;gap:24px}
-.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px}
-.footer-links a:hover{color:var(--accent)}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newData = mockFetchData();
+      setData(prev => [...prev.slice(-19), newData]);
+    }, 2000);
 
-@media(max-width:768px){
-  .nav-links{display:none}
-  .quote-layout{grid-template-columns:1fr}
-  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-  .gallery-item:first-child{grid-row:span 1}
-  .form-row{grid-template-columns:1fr}
-  .contact-grid{grid-template-columns:1fr}
-  .hero-stats{gap:24px}
-  .checkbox-group{grid-template-columns:1fr}
+    return () => clearInterval(interval);
+  }, []);
+
+  const latest = data[data.length - 1] || {};
+
+  return (
+    <div className="p-6 grid gap-6 md:grid-cols-3 bg-gray-100 min-h-screen">
+      {/* Cards */}
+      <Card className="rounded-2xl shadow-lg">
+        <CardContent className="flex items-center justify-between p-4">
+          <div>
+            <p className="text-sm text-gray-500">pH</p>
+            <h2 className="text-2xl font-bold">{latest.ph || "--"}</h2>
+          </div>
+          <Droplets className="w-8 h-8" />
+        </CardContent>
+      </Card>
+
+      <Card className="rounded-2xl shadow-lg">
+        <CardContent className="flex items-center justify-between p-4">
+          <div>
+            <p className="text-sm text-gray-500">Temperatura °C</p>
+            <h2 className="text-2xl font-bold">{latest.temperature || "--"}</h2>
+          </div>
+          <Thermometer className="w-8 h-8" />
+        </CardContent>
+      </Card>
+
+      <Card className="rounded-2xl shadow-lg">
+        <CardContent className="flex items-center justify-between p-4">
+          <div>
+            <p className="text-sm text-gray-500">Humedad %</p>
+            <h2 className="text-2xl font-bold">{latest.humidity || "--"}</h2>
+          </div>
+          <Activity className="w-8 h-8" />
+        </CardContent>
+      </Card>
+
+      {/* Chart */}
+      <div className="md:col-span-3 bg-white rounded-2xl shadow-lg p-4">
+        <h3 className="mb-4 font-semibold">Histórico</h3>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="ph" stroke="#8884d8" />
+            <Line type="monotone" dataKey="temperature" stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Controls */}
+      <div className="md:col-span-3 flex gap-4">
+        <Button className="rounded-xl">Encender Bomba</Button>
+        <Button variant="outline" className="rounded-xl">Apagar Bomba</Button>
+      </div>
+    </div>
+  );
 }
-</style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-inner">
-    <a href="#inicio" class="logo">L-<span>DEN</span></a>
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#galeria">Portafolio</a></li>
-      <li><a href="#cotizacion">Cotización</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    <button class="nav-cta" onclick="document.getElementById('cotizacion').scrollIntoView({behavior:'smooth'})">COTIZAR AHORA</button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section id="inicio">
-  <div class="hero-grid"></div>
-  <div class="hero-scan"></div>
-  <div class="hero-content">
-    <div class="hero-badge">SISTEMA ACTIVO — TECNOLOGÍA AVANZADA</div>
-    <h1>SEGURIDAD<br><span class="line2">INTELIGENTE</span><br>PARA TU NEGOCIO</h1>
-    <p class="hero-sub">Soluciones integrales en cámaras de seguridad, sistemas de punto de venta y domótica. Protege y automatiza tu espacio con tecnología de vanguardia.</p>
-    <div class="hero-btns">
-      <a href="#cotizacion" class="btn-primary">SOLICITAR COTIZACIÓN</a>
-      <a href="#servicios" class="btn-outline">VER SERVICIOS</a>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-num">+500</div><div class="stat-label">Instalaciones</div></div>
-      <div><div class="stat-num">8+</div><div class="stat-label">Años de exp.</div></div>
-      <div><div class="stat-num">24/7</div><div class="stat-label">Soporte</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICIOS -->
-<section id="servicios">
-  <div class="section-label">// NUESTROS SERVICIOS</div>
-  <div class="section-title">Soluciones Tecnológicas<br>a tu Medida</div>
-  <p class="section-sub">Diseñamos, instalamos y damos mantenimiento a sistemas de seguridad y automatización para hogares y empresas.</p>
-  <div class="services-grid">
-    <div class="service-card">
-      <span class="service-num">01</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 52 52" fill="none"><rect x="2" y="14" width="36" height="24" rx="3" stroke="#00d4ff" stroke-width="2"/><path d="M38 20l10-6v24l-10-6V20z" stroke="#00d4ff" stroke-width="2"/><circle cx="19" cy="26" r="6" stroke="#00d4ff" stroke-width="1.5"/><circle cx="19" cy="26" r="2" fill="#00d4ff"/></svg>
-      </div>
-      <div class="service-name">CÁMARAS DE SEGURIDAD</div>
-      <p class="service-desc">Instalación y configuración de sistemas CCTV analógicos e IP con monitoreo remoto en tiempo real.</p>
-      <ul class="service-features">
-        <li>Cámaras HD / 4K / Infrarrojo</li>
-        <li>DVR / NVR con almacenamiento</li>
-        <li>Monitoreo desde app móvil</li>
-        <li>Instalación interior y exterior</li>
-        <li>Alertas de movimiento en tiempo real</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <span class="service-num">02</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 52 52" fill="none"><rect x="6" y="8" width="40" height="28" rx="3" stroke="#00d4ff" stroke-width="2"/><rect x="14" y="40" width="24" height="4" rx="1" stroke="#00d4ff" stroke-width="1.5"/><line x1="10" y1="40" x2="42" y2="40" stroke="#00d4ff" stroke-width="1.5"/><rect x="12" y="14" width="28" height="16" rx="1.5" stroke="#00d4ff" stroke-width="1.5"/><line x1="26" y1="14" x2="26" y2="30" stroke="#00d4ff" stroke-width="1"/><line x1="12" y1="22" x2="40" y2="22" stroke="#00d4ff" stroke-width="1"/></svg>
-      </div>
-      <div class="service-name">PUNTO DE VENTA</div>
-      <p class="service-desc">Sistemas POS completos para retail, restaurantes y negocios. Control total de ventas, inventario y reportes.</p>
-      <ul class="service-features">
-        <li>Software POS especializado</li>
-        <li>Control de inventario automático</li>
-        <li>Integración con impresoras y cajones</li>
-        <li>Reportes y análisis de ventas</li>
-        <li>Capacitación incluida</li>
-      </ul>
-    </div>
-    <div class="service-card">
-      <span class="service-num">03</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 52 52" fill="none"><path d="M6 24L26 8l20 16v22H6V24z" stroke="#00d4ff" stroke-width="2"/><rect x="18" y="32" width="16" height="18" rx="1" stroke="#00d4ff" stroke-width="1.5"/><circle cx="26" cy="26" r="5" stroke="#00d4ff" stroke-width="1.5"/><path d="M26 21v-4M26 35v-4M21 26h-4M35 26h-4" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      </div>
-      <div class="service-name">DOMÓTICA</div>
-      <p class="service-desc">Automatización del hogar y empresa. Control inteligente de iluminación, climatización, accesos y más.</p>
-      <ul class="service-features">
-        <li>Control de iluminación inteligente</li>
-        <li>Termostatos y climatización</li>
-        <li>Cerraduras y control de acceso</li>
-        <li>Integración con Google / Alexa</li>
-        <li>Escenas y automatizaciones</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- GALERIA -->
-<section id="galeria">
-  <div class="section-label">// PORTAFOLIO</div>
-  <div class="section-title">Proyectos Realizados</div>
-  <p class="section-sub">Instalaciones en empresas, comercios, hogares e industrias en toda la región.</p>
-  <div class="gallery-grid">
-    <div class="gallery-item">
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="4" y="16" width="44" height="32" rx="3" stroke="#00d4ff" stroke-width="2"/><path d="M48 24l12-8v32l-12-8V24z" stroke="#00d4ff" stroke-width="2"/><circle cx="24" cy="32" r="8" stroke="#00d4ff" stroke-width="1.5"/><circle cx="24" cy="32" r="3" fill="#00d4ff"/></svg>
-      <span class="gallery-label">CCTV — EMPRESA INDUSTRIAL</span>
-    </div>
-    <div class="gallery-item">
-      <svg width="48" height="48" viewBox="0 0 52 52" fill="none"><rect x="6" y="8" width="40" height="28" rx="3" stroke="#00d4ff" stroke-width="2"/><rect x="12" y="14" width="28" height="16" rx="1.5" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      <span class="gallery-label">POS — RESTAURANTE</span>
-    </div>
-    <div class="gallery-item">
-      <svg width="48" height="48" viewBox="0 0 52 52" fill="none"><path d="M6 24L26 8l20 16v22H6V24z" stroke="#00d4ff" stroke-width="2"/><circle cx="26" cy="26" r="5" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      <span class="gallery-label">DOMÓTICA — RESIDENCIA</span>
-    </div>
-    <div class="gallery-item">
-      <svg width="48" height="48" viewBox="0 0 52 52" fill="none"><rect x="4" y="10" width="44" height="32" rx="3" stroke="#00d4ff" stroke-width="2"/><circle cx="26" cy="26" r="7" stroke="#00d4ff" stroke-width="1.5"/><line x1="4" y1="18" x2="48" y2="18" stroke="#00d4ff" stroke-width="1"/></svg>
-      <span class="gallery-label">CCTV — PLAZA COMERCIAL</span>
-    </div>
-    <div class="gallery-item">
-      <svg width="48" height="48" viewBox="0 0 52 52" fill="none"><rect x="14" y="4" width="24" height="44" rx="3" stroke="#00d4ff" stroke-width="2"/><rect x="18" y="10" width="16" height="20" rx="1" stroke="#00d4ff" stroke-width="1.5"/><circle cx="26" cy="38" r="3" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      <span class="gallery-label">POS — TIENDA RETAIL</span>
-    </div>
-  </div>
-</section>
-
-<!-- COTIZACION -->
-<section id="cotizacion">
-  <div class="section-label">// COTIZACIÓN GRATUITA</div>
-  <div class="section-title">Solicita tu Cotización<br>Sin Costo</div>
-  <div class="quote-layout">
-    <div class="quote-info">
-      <p class="section-sub">Cuéntanos tu proyecto y en menos de 24 horas un asesor te contactará con la solución ideal para tu negocio o hogar.</p>
-      <div class="quote-steps">
-        <div class="step"><span class="step-num">01</span><div><div class="step-title">Llena el formulario</div><p class="step-desc">Comparte los detalles de tu proyecto y el tipo de servicio que necesitas.</p></div></div>
-        <div class="step"><span class="step-num">02</span><div><div class="step-title">Te contactamos por WhatsApp</div><p class="step-desc">Al enviar, se abrirá WhatsApp con tu solicitud lista para enviarnos directamente.</p></div></div>
-        <div class="step"><span class="step-num">03</span><div><div class="step-title">Instalación profesional</div><p class="step-desc">Nuestro equipo técnico realiza la instalación con garantía incluida.</p></div></div>
-      </div>
-    </div>
-    <div class="quote-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nombre completo</label>
-          <input type="text" id="f-nombre" placeholder="Tu nombre">
-        </div>
-        <div class="form-group">
-          <label>Empresa / Negocio</label>
-          <input type="text" id="f-empresa" placeholder="Nombre del negocio">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Teléfono</label>
-          <input type="tel" id="f-tel" placeholder="+52 555 000 0000">
-        </div>
-        <div class="form-group">
-          <label>Correo electrónico</label>
-          <input type="email" id="f-email" placeholder="correo@email.com">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Tipo de inmueble</label>
-        <select id="f-tipo">
-          <option value="">Selecciona una opción</option>
-          <option>Casa / Residencia</option>
-          <option>Oficina</option>
-          <option>Restaurante / Bar</option>
-          <option>Tienda / Comercio</option>
-          <option>Bodega / Industria</option>
-          <option>Plaza / Edificio</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Servicios de interés</label>
-        <div class="checkbox-group">
-          <label class="check-item"><input type="checkbox" id="c1"><span>Cámaras de seguridad</span></label>
-          <label class="check-item"><input type="checkbox" id="c2"><span>Punto de venta</span></label>
-          <label class="check-item"><input type="checkbox" id="c3"><span>Domótica</span></label>
-          <label class="check-item"><input type="checkbox" id="c4"><span>Mantenimiento</span></label>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Detalles del proyecto</label>
-        <textarea id="f-msg" placeholder="Describe brevemente tu necesidad, número de cámaras, área, etc."></textarea>
-      </div>
-      <button class="form-submit-wa" onclick="enviarWhatsApp()">
-        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        ENVIAR POR WHATSAPP
-      </button>
-      <p class="form-note">Se abrirá WhatsApp con tu solicitud lista · Respuesta inmediata</p>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACTO -->
-<section id="contacto">
-  <div class="section-label">// CONTACTO</div>
-  <div class="section-title">Estamos para Ayudarte</div>
-  <div class="contact-grid">
-    <div class="contact-card">
-      <div class="contact-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 5h18v14H3V5z" stroke="#00d4ff" stroke-width="1.5"/><path d="M3 5l9 9 9-9" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      </div>
-      <div class="contact-title">CORREO</div>
-      <div class="contact-info">
-        <a href="mailto:contacto@l-den.mx">contacto@l-den.mx</a><br>
-        <span>Respuesta en 24 horas</span>
-      </div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C8.6 21 3 15.4 3 8c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      </div>
-      <div class="contact-title">WHATSAPP DIRECTO</div>
-      <div class="contact-info">
-        <a href="https://wa.me/525667694461" target="_blank">+52 566 769 4461</a><br>
-        <span>Lun – Sáb: 9am – 7pm</span><br>
-        <a href="https://wa.me/525667694461?text=Hola%20L-DEN%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" class="contact-wa-btn">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          CHATEAR AHORA
-        </a>
-      </div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z" stroke="#00d4ff" stroke-width="1.5"/><circle cx="12" cy="9" r="2.5" stroke="#00d4ff" stroke-width="1.5"/></svg>
-      </div>
-      <div class="contact-title">UBICACIÓN</div>
-      <div class="contact-info">
-        Ciudad de México<br>
-        <span>Servicio a toda la CDMX y área metropolitana</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">L-<span>DEN</span></div>
-  <span class="footer-copy">© 2025 L-DEN · Todos los derechos reservados</span>
-  <div class="footer-links">
-    <a href="#servicios">Servicios</a>
-    <a href="#cotizacion">Cotizar</a>
-    <a href="#contacto">Contacto</a>
-  </div>
-</footer>
-
-<!-- BOTÓN FLOTANTE WHATSAPP -->
-<a href="https://wa.me/525667694461?text=Hola%20L-DEN%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20sus%20servicios." target="_blank" class="wa-float">
-  <span class="wa-tooltip">Escríbenos</span>
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
-
-<script>
-var WA_NUM = '525667694461';
-
-function enviarWhatsApp(){
-  var nombre = document.getElementById('f-nombre').value.trim();
-  var empresa = document.getElementById('f-empresa').value.trim();
-  var tel = document.getElementById('f-tel').value.trim();
-  var email = document.getElementById('f-email').value.trim();
-  var tipo = document.getElementById('f-tipo').value;
-  var msg = document.getElementById('f-msg').value.trim();
-
-  if(!nombre || !tel){
-    alert('Por favor ingresa tu nombre y teléfono.');
-    return;
-  }
-
-  var servicios = [];
-  if(document.getElementById('c1').checked) servicios.push('Cámaras de seguridad');
-  if(document.getElementById('c2').checked) servicios.push('Punto de venta');
-  if(document.getElementById('c3').checked) servicios.push('Domótica');
-  if(document.getElementById('c4').checked) servicios.push('Mantenimiento');
-
-  var texto = '¡Hola L-DEN! Me gustaría solicitar una cotización.\n\n';
-  texto += '👤 *Nombre:* ' + nombre + '\n';
-  if(empresa) texto += '🏢 *Empresa:* ' + empresa + '\n';
-  texto += '📱 *Teléfono:* ' + tel + '\n';
-  if(email) texto += '📧 *Correo:* ' + email + '\n';
-  if(tipo) texto += '🏠 *Tipo de inmueble:* ' + tipo + '\n';
-  if(servicios.length) texto += '⚙️ *Servicios:* ' + servicios.join(', ') + '\n';
-  if(msg) texto += '📋 *Detalles:* ' + msg + '\n';
-
-  var url = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(texto);
-  window.open(url, '_blank');
-}
-</script>
-</body>
-</html>
