@@ -2,66 +2,165 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Huerto Hidropónico</title>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
-    body {
-      font-family: Arial;
-      background: #f5f5f5;
-      padding: 20px;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 15px;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
     .cards {
-      display: flex;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
       margin-bottom: 20px;
     }
+
     .card {
       background: white;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #666;
+    }
+
+    .card p {
+      font-size: 30px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .chart-container {
+      background: white;
       padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      flex: 1;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      overflow-x: auto;
     }
+
+    canvas {
+      width: 100% !important;
+      height: 280px !important;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
     button {
-      padding: 10px 15px;
+      flex: 1;
+      min-width: 140px;
+      padding: 14px;
       border: none;
-      border-radius: 8px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      margin-right: 10px;
+      transition: 0.2s;
     }
-    .on { background: #4CAF50; color: white; }
-    .off { background: #f44336; color: white; }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .on {
+      background: #22c55e;
+      color: white;
+    }
+
+    .off {
+      background: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+
+      h1{
+        font-size: 24px;
+      }
+
+      .card p{
+        font-size: 24px;
+      }
+
+      button{
+        width: 100%;
+      }
+
+      canvas{
+        height: 220px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
 
-<h1>🌱 Huerto Hidropónico</h1>
+  <h1>🌱 Huerto Hidropónico</h1>
 
-<div class="cards">
-  <div class="card">
-    <h3>pH</h3>
-    <p id="ph">--</p>
+  <div class="cards">
+
+    <div class="card">
+      <h3>pH</h3>
+      <p id="ph">--</p>
+    </div>
+
+    <div class="card">
+      <h3>Temperatura °C</h3>
+      <p id="temp">--</p>
+    </div>
+
+    <div class="card">
+      <h3>Humedad %</h3>
+      <p id="hum">--</p>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h3>Temperatura °C</h3>
-    <p id="temp">--</p>
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
   </div>
 
-  <div class="card">
-    <h3>Humedad %</h3>
-    <p id="hum">--</p>
+  <div class="buttons">
+    <button class="on" onclick="encender()">
+      💧 Encender Bomba
+    </button>
+
+    <button class="off" onclick="apagar()">
+      ⛔ Apagar Bomba
+    </button>
   </div>
-</div>
-
-<canvas id="chart" height="100"></canvas>
-
-<div style="margin-top:20px;">
-  <button class="on" onclick="encender()">Encender Bomba</button>
-  <button class="off" onclick="apagar()">Apagar Bomba</button>
-</div>
 
 <script>
+
   const phEl = document.getElementById("ph");
   const tempEl = document.getElementById("temp");
   const humEl = document.getElementById("hum");
@@ -73,14 +172,38 @@
     data: {
       labels: [],
       datasets: [
-        { label: "pH", data: [], borderWidth: 2 },
-        { label: "Temp", data: [], borderWidth: 2 }
+        {
+          label: "pH",
+          data: [],
+          borderWidth: 3,
+          tension: 0.3
+        },
+        {
+          label: "Temp",
+          data: [],
+          borderWidth: 3,
+          tension: 0.3
+        }
       ]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
+
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 14
+            }
+          }
+        }
+      },
+
       scales: {
-        y: { beginAtZero: false }
+        y: {
+          beginAtZero: false
+        }
       }
     }
   });
@@ -95,33 +218,40 @@
   }
 
   function update() {
+
     const d = getData();
 
     phEl.textContent = d.ph;
-    tempEl.textContent = d.temp;
-    humEl.textContent = d.hum;
+    tempEl.textContent = d.temp + "°";
+    humEl.textContent = d.hum + "%";
 
     chart.data.labels.push(d.time);
+
     chart.data.datasets[0].data.push(d.ph);
     chart.data.datasets[1].data.push(d.temp);
 
-    if (chart.data.labels.length > 20) {
+    if (chart.data.labels.length > 15) {
+
       chart.data.labels.shift();
+
       chart.data.datasets.forEach(ds => ds.data.shift());
     }
 
     chart.update();
   }
 
+  update();
+
   setInterval(update, 2000);
 
   function encender() {
-    alert("Bomba encendida");
+    alert("💧 Bomba encendida");
   }
 
   function apagar() {
-    alert("Bomba apagada");
+    alert("⛔ Bomba apagada");
   }
+
 </script>
 
 </body>
